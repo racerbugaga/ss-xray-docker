@@ -11,7 +11,7 @@ services:
       - traefik
     environment:
       - PASSWORD=pom76phlq6t4cw1p
-      - 'PLUGIN_OPTS=server;path=/xray'
+      - 'PLUGIN_OPTS=server;path=/38c635dcb8ae4b25b47c07cfe14badf6'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ss-xray.rule=Host(`v1212850.hosted-by-vdsina.ru`)"
@@ -52,5 +52,4 @@ services:
       - "traefik.enable=true"
 
 networks:
-  traefik:
-    external: true
+  traefik
