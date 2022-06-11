@@ -10,11 +10,11 @@ services:
       - default
       - traefik
     environment:
-      - PASSWORD=password
+      - PASSWORD=pom76phlq6t4cw1p
       - 'PLUGIN_OPTS=server;path=/xray'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ss-xray.rule=Host(`mydomain.me`)"
+      - "traefik.http.routers.ss-xray.rule=Host(`v1212850.hosted-by-vdsina.ru`)"
       - "traefik.http.routers.ss-xray.entrypoints=websecure"
       - "traefik.http.routers.ss-xray.tls.certresolver=le"
       - "traefik.http.services.ss-xray.loadbalancer.server.port=1080"
@@ -35,7 +35,7 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
-      - "--certificatesresolvers.le.acme.email=your_email@gmail.com"
+      - "--certificatesresolvers.le.acme.email=racerbugaga@gmail.com"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--providers.docker.network=traefik"
     ports:
