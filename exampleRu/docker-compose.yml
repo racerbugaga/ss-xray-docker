@@ -1,0 +1,56 @@
+version: "3.3"
+
+services:
+
+  ss-xray:
+    image: "mazy/ss-xray:latest"
+    container_name: "ss-xray"
+    restart: unless-stopped
+    networks:
+      - default
+      - traefik
+    environment:
+      - PASSWORD=pom76phlq6t4cw1p
+      - 'PLUGIN_OPTS=server;path=/38c635dcb8ae4b25b47c07cfe14badf6'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ss-xray.rule=Host(`v1552193.hosted-by-vdsina.ru`)"
+      - "traefik.http.routers.ss-xray.entrypoints=websecure"
+      - "traefik.http.routers.ss-xray.tls.certresolver=le"
+      - "traefik.http.services.ss-xray.loadbalancer.server.port=1080"
+
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    restart: unless-stopped
+    command:
+      - "--api.insecure=true"
+      - "--entryPoints.metrics.address=:8082"
+      - "--metrics.prometheus.entryPoint=metrics"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--certificatesresolvers.le.acme.email=racerbugaga@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--providers.docker.network=traefik"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - traefik
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    extra_hosts: 
+      - host.docker.internal:172.17.0.1
+    labels:
+      - "traefik.enable=true"
+
+networks:
+  traefik:
+    external: true
